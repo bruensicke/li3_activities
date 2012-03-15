@@ -8,7 +8,7 @@ use li3_activities\core\Activity;
 class ActivitiesController extends \lithium\action\Controller {
 
 	public function index($input = null) {
-		$defaults = array('limit' => 1000);
+		$defaults = array('limit' => 250, 'order' => array('created' => 'DESC'));
 		if (!empty($input) && is_array($input)) {
 			$defaults += $input;
 		}
