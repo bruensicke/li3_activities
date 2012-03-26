@@ -63,3 +63,4 @@ Activity::events(array(
 // 	return $result;
 // });
 
+?>

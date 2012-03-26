@@ -41,6 +41,6 @@ class Activities extends \lithium\data\Model {
 		};
 		return static::_filter(__FUNCTION__, $params, $filter);
 	}
-
 }
 
+?>

@@ -13,3 +13,4 @@ require __DIR__ . '/bootstrap/activities.php';
  */
 require __DIR__ . '/bootstrap/events.php';
 
+?>

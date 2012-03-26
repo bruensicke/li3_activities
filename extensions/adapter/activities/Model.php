@@ -33,3 +33,5 @@ class Model extends \lithium\core\Object {
 		};
 	}
 }
+
+?>

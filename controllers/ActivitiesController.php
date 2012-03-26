@@ -50,8 +50,8 @@ class ActivitiesController extends \lithium\action\Controller {
 	 */
 	protected function _options($defaults = array()) {
 		$options = array();
-		if(!empty($this->request->args)) {
-			foreach($this->request->args as $param) {
+		if (!empty($this->request->args)) {
+			foreach ($this->request->args as $param) {
 				if (stristr($param, ':')) {
 					list($key, $val) = explode(':', $param);
 				} else {
@@ -65,5 +65,6 @@ class ActivitiesController extends \lithium\action\Controller {
 		$this->set($options);
 		return $options;
 	}
-
 }
+
+?>

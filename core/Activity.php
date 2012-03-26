@@ -180,7 +180,7 @@ class Activity extends \lithium\core\Adaptable {
 		foreach (array_keys(static::$_configurations) as $name) {
 			$config = static::config($name);
 			$nameMatch = ($config[$key] === true || $config[$key] === $type);
-			$arrayMatch = (is_array($config[$key]) && 
+			$arrayMatch = (is_array($config[$key]) &&
 			(in_array($type, $config[$key]) || array_key_exists($type, $config[$key])));
 
 			if ($nameMatch || $arrayMatch) {
@@ -192,3 +192,4 @@ class Activity extends \lithium\core\Adaptable {
 	}
 }
 
+?>
