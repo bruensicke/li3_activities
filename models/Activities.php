@@ -13,9 +13,12 @@ class Activities extends \lithium\data\Model {
 	 */
 	public $_finders = array(
 		'latest' => array(
-			'order' => array('created' => 'DESC'),
 			'limit' => 250,
 		),
+	);
+
+	protected $_query = array(
+		'order' => array('created' => 'DESC'),
 	);
 
 	/**
