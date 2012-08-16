@@ -6,6 +6,24 @@ use li3_activities\core\Activity;
 
 class Activities extends \lithium\data\Model {
 
+	/**
+	 * Custom find query properties, indexed by name.
+	 *
+	 * @var array
+	 */
+	public $_finders = array(
+		'latest' => array(
+			'order' => array('created' => 'DESC'),
+			'limit' => 250,
+		),
+	);
+
+	/**
+	 * initialize method
+	 *
+	 * @see lithium\data\Model
+	 * @return void
+	 */
 	public static function __init(array $options = array()) {
 		static::config($options);
 		static::applyFilter('save', function ($self, $params, $chain) {
