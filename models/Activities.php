@@ -35,16 +35,16 @@ class Activities extends \lithium\data\Model {
 		$options += $defaults;
 		$params = compact('type', 'data', 'options');
 		$filter = function($self, $params) {
-			$data = array('type' => $params['type'], 'data' => $params['data']);
 			$scope = $self::getScope($params['data']);
-			$entity = $self::create($data + $scope);
-			$entity->message = Activity::message($entity->type, $entity->data->data());
-			$entity->created = time();
-			$success = $entity->save();
+			$data = array('type' => $params['type'], 'data' => $self::cleanData($params['data']));
+			$activity = $self::create($scope + $data);
+			$activity->message = Activity::message($activity->type, $activity->data->data());
+			$activity->created = time();
+			$success = $activity->save();
 			if (!$success) {
 				return false;
 			}
-			return $entity->data();
+			return $activity->data();
 		};
 		return static::_filter(__FUNCTION__, $params, $filter);
 	}
@@ -122,6 +122,21 @@ class Activities extends \lithium\data\Model {
 			}
 		}
 		return $scope;
+	}
+
+	/**
+	 * only use data of objects, in case they are contained within data
+	 *
+	 * @param array $data passed in data
+	 * @return array returns data, without continaing objects
+	 */
+	public static function cleanData(array $data = array()) {
+		foreach($data as $key => $item) {
+			if ($item instanceof Entity) {
+				$data[$key] = $item->data();
+			}
+		}
+		return $data;
 	}
 }
 
