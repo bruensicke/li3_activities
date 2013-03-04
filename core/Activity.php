@@ -115,7 +115,10 @@ class Activity extends \lithium\core\Adaptable {
 	 *                existing ones, or not, defaults to false.
 	 * @return array all valid events, that are present afterwards
 	 */
-	public static function events(array $events, array $options = array()) {
+	public static function events(array $events = array(), array $options = array()) {
+		if (empty($events)) {
+			return static::$_events;
+		}
 		$defaults = array('merge' => true, 'replace' => false);
 		$options += $defaults;
 		if ($options['replace'] || !$options['merge']) {
