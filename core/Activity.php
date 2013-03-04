@@ -100,6 +100,37 @@ class Activity extends \lithium\core\Adaptable {
 	}
 
 	/**
+	 * Returns collected Activity depending on given criteria.
+	 *
+	 * Please note, that different adapters may behave diferent here.
+	 *
+	 * @param string|array $scope if string is given, a check is made of a group with that name
+	 *        exists and if so, the types for that group will be retrieved. If no group exists, it
+	 *        will be used as name for event_type, without any further checks.
+	 * @param array $options see specific implementation for adapter to see, which options are valid
+	 * @return mixed see various adapters for return type
+	 * @filter
+	 */
+	public static function get($scope, array $options = array()) {
+		$defaults = array('name' => null);
+		$options += $defaults;
+		$result = array();
+		$configs = static::config();
+
+		$name = $options['name'];
+		unset($options['name']);
+		if ($name) {
+			$result[$name] = static::adapter($name)->get($scope, $options);
+		} else {
+			foreach($configs as $name => $config) {
+				$result[$name] = static::adapter($name)->get($scope, $options);
+			}
+		}
+
+		return (count($result) > 1) ? $result : array_shift($result);
+	}
+
+	/**
 	 * Configure Events that can be tracked.
 	 *
 	 * Expects an array, containing keys of a named-type and their according
@@ -152,10 +183,9 @@ class Activity extends \lithium\core\Adaptable {
 	 *
 	 * @param string $name Name of Group to retrieve types for
 	 * @param array $options additional options, e.g.
-	 *              - `'name'` string: Name of configuration to retrieve groups for,
-	 *                         defaults to 'default'.
-	 * @return array an array holding all types, that belong to given group, if no
-	 *               group for given name is found, an empty array is returned.
+	 *        - `'name'` string: Name of configuration to retrieve groups for, defaults to 'default'
+	 * @return array an array holding all types, that belong to given group, if no group for given
+	 *        name is found, an empty array is returned.
 	 */
 	public static function group($name, array $options = array()) {
 		$defaults = array('name' => 'default');
