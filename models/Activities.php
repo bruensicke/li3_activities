@@ -22,24 +22,6 @@ class Activities extends \lithium\data\Model {
 	);
 
 	/**
-	 * initialize method
-	 *
-	 * @see lithium\data\Model
-	 * @return void
-	 */
-	public static function __init(array $options = array()) {
-		static::config($options);
-		static::applyFilter('save', function ($self, $params, $chain) {
-			$entity = &$params['entity'];
-			if (!$entity->exists()) {
-				$entity->created = date(DATE_ATOM);
-			}
-			$entity->message = Activity::message($entity->type, $entity->data->data());
-			return $chain->next($self, $params, $chain);
-		});
-	}
-
-	/**
 	 * Tracks an Activity
 	 *
 	 * @param string $type what type is this event
@@ -53,7 +35,10 @@ class Activities extends \lithium\data\Model {
 		$params = compact('type', 'data', 'options');
 		$filter = function($self, $params) {
 			$data = array('type' => $params['type'], 'data' => $params['data']);
-			$entity = Activities::create($data);
+			$scope = $self::getScope($params['data']);
+			$entity = $self::create($data + $scope);
+			$entity->message = Activity::message($entity->type, $entity->data->data());
+			$entity->created = time();
 			$success = $entity->save();
 			if (!$success) {
 				return false;
