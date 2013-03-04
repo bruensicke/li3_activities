@@ -1,5 +1,7 @@
 <?php
 
+define('LI3_ACTIVITIES_PATH', dirname(__DIR__));
+
 /**
  * This file defines the activity configuration
  *
