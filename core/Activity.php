@@ -164,7 +164,18 @@ class Activity extends \lithium\core\Adaptable {
 		if (!array_key_exists($name, $config['groups'])) {
 			return array();
 		}
-		return $config['groups'][$name];
+		if (is_array($config['groups'][$name])) {
+			return $config['groups'][$name];
+		}
+		$regex = sprintf('/%s/', str_replace('\*', "\w", preg_quote($config['groups'][$name])));
+		$result = array();
+		$events = array_keys(static::events());
+		foreach ($events as $event) {
+			if (preg_match($regex, $event)) {
+				$result[] = $event;
+			}
+		}
+		return $result;
 	}
 
 	/**
