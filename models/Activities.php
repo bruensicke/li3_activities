@@ -117,6 +117,8 @@ class Activities extends \lithium\data\Model {
 		foreach($data as $key => $item) {
 			if ($item instanceof Entity) {
 				$scope[sprintf('%s_id', $key)] = (string) $item->{$item->key()};
+			} elseif (is_array($item) && isset($item['_id'])) {
+				$scope[$key] = (string) $item['_id'];
 			} elseif (preg_match('/^(.+)_id$/', $key, $matches) && is_scalar($item)) {
 				list($attribute, $name) = $matches;
 				$scope[$attribute] = (string) $item;
