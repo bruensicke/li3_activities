@@ -3,7 +3,6 @@
 namespace li3_activities\models;
 
 use li3_activities\core\Activity;
-use lithium\data\Entity;
 
 class Activities extends \lithium\data\Model {
 
@@ -135,7 +134,10 @@ class Activities extends \lithium\data\Model {
 	 */
 	public static function cleanData(array $data = array()) {
 		foreach($data as $key => $item) {
-			if ($item instanceof Entity) {
+			if (is_array($item)) {
+				$data[$key] = static::cleanData($item);
+			}
+			if ($item instanceof \lithium\data\Entity) {
 				$data[$key] = $item->data();
 			}
 		}
