@@ -81,11 +81,12 @@ class Activity extends \lithium\core\Adaptable {
 	 * @filter
 	 */
 	public static function track($type, array $data = array(), array $options = array()) {
-		$defaults = array('name' => null);
+		$defaults = array('name' => null, 'scope' => array());
 		$options += $defaults;
-		$result = true;
+		$result = array();
 
 		if ($name = $options['name']) {
+			unset($options['name']);
 			$methods = array($name => static::adapter($name)->track($type, $data, $options));
 		} else {
 			$methods = static::_configsByType($type, $data, $options);
@@ -94,7 +95,7 @@ class Activity extends \lithium\core\Adaptable {
 		foreach ($methods as $name => $method) {
 			$params = compact('type', 'data', 'options');
 			$config = static::_config($name);
-			$result &= static::_filter(__FUNCTION__, $params, $method, $config['filters']);
+			$result[] = static::_filter(__FUNCTION__, $params, $method, $config['filters']);
 		}
 		return $methods ? $result : false;
 	}
