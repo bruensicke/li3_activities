@@ -23,6 +23,16 @@ class Activities extends \lithium\data\Model {
 	);
 
 	/**
+	 * returns primary id as string from current entity
+	 *
+	 * @param object $entity instance of current Record
+	 * @return string primary id of current record
+	 */
+	public function id($entity) {
+		return (string) $entity->{static::key()};
+	}
+
+	/**
 	 * Tracks an Activity
 	 *
 	 * @param string $type what type is this event
