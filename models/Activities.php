@@ -23,6 +23,21 @@ class Activities extends \lithium\data\Model {
 	);
 
 	/**
+	 * Stores the data schema.
+	 *
+	 * @see lithium\data\source\MongoDb::$_schema
+	 * @var array
+	 */
+	protected $_schema = array(
+		'_id' => array('type' => 'id'),
+		'type' => array('type' => 'string', 'default' => 'none', 'null' => false),
+		'message' => array('type' => 'string', 'null' => false),
+		'data' => array('type' => 'object', 'null' => true),
+		'notes' => array('type' => 'string', 'null' => true),
+		'created' => array('type' => 'datetime', 'null' => false),
+	);
+
+	/**
 	 * returns primary id as string from current entity
 	 *
 	 * @param object $entity instance of current Record
